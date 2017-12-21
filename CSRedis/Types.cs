@@ -205,7 +205,7 @@ namespace CSRedis
     public class RedisMasterRole : RedisRole
     {
         readonly long _replicationOffset;
-        readonly Tuple<string, int, int>[] _slaves;
+        readonly Tuple<string, int, Int64>[] _slaves;
 
         /// <summary>
         /// Get the master replication offset
@@ -215,9 +215,9 @@ namespace CSRedis
         /// <summary>
         /// Get the slaves associated with the current master
         /// </summary>
-        public Tuple<string, int, int>[] Slaves { get { return _slaves; } }
+        public Tuple<string, int, Int64>[] Slaves { get { return _slaves; } }
 
-        internal RedisMasterRole(string role, long replicationOffset, Tuple<string, int, int>[] slaves)
+        internal RedisMasterRole(string role, long replicationOffset, Tuple<string, int, Int64>[] slaves)
             : base(role)
         {
             _replicationOffset = replicationOffset;
@@ -403,7 +403,14 @@ namespace CSRedis
             Port = info.GetInt32("port");
             RunId = info.GetString("runid");
             Flags = info.GetString("flags").Split(',');
-            PendingCommands = info.GetInt64("pending-commands");
+            //PendingCommands = info.GetInt64("pending-commands");
+            try
+            {
+                LinkPendingCommands = info.GetInt64("link-pending-commands");
+            }catch(Exception ex)
+            {
+                LinkPendingCommands = info.GetInt64("pending-commands");
+            }
             LastOkPingReply = info.GetInt64("last-ok-ping-reply");
             LastPingReply = info.GetInt64("last-ping-reply");
             DownAfterMilliseconds = info.GetInt64("down-after-milliseconds");
@@ -434,10 +441,15 @@ namespace CSRedis
         /// </summary>
         public string[] Flags { get; set; }
 
+        // <summary>
+        // Get or set number of pending Redis server commands
+        // </summary>
+        //public long PendingCommands { get; set; }
+
         /// <summary>
-        /// Get or set number of pending Redis server commands
+        /// Get or set number of pending Redis server commands (replace PendingCommands)
         /// </summary>
-        public long PendingCommands { get; set; }
+        public long LinkPendingCommands { get; set; }
 
         /// <summary>
         /// Get or set last ping sent
@@ -618,10 +630,26 @@ namespace CSRedis
         public RedisSentinelInfo(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            SDownTime = info.GetInt64("s-down-time");
-            LastHelloMessage = info.GetInt64("last-hello-message");
-            VotedLeader = info.GetString("voted-leader");
-            VotedLeaderEpoch = info.GetInt64("voted-leader-epoch");
+            try
+            {
+                SDownTime = info.GetInt64("s-down-time");
+            }
+            catch (System.Runtime.Serialization.SerializationException ex) { }
+            try
+            {
+                LastHelloMessage = info.GetInt64("last-hello-message");
+            }
+            catch (System.Runtime.Serialization.SerializationException ex) { }
+            try
+            {
+                VotedLeader = info.GetString("voted-leader");
+            }
+            catch (System.Runtime.Serialization.SerializationException ex) { }
+            try
+            {
+                VotedLeaderEpoch = info.GetInt64("voted-leader-epoch");
+            }
+            catch (System.Runtime.Serialization.SerializationException ex) { }
         }
 
         /// <summary>

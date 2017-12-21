@@ -37,7 +37,7 @@ namespace CSRedis.Tests
                     "port", "6379",
                     "runid", "0e4c05a7b29fdb5dffa054f151bca9ed6a113c38",
                     "flags", "master",
-                    "pending-commands", "0",
+                    "link-pending-commands", "0",
                     "last-ping-sent", "0",
                     "last-ping-reply", "50",
                     "last-ok-ping-reply", "50",
@@ -62,7 +62,7 @@ namespace CSRedis.Tests
                     Assert.AreEqual("0e4c05a7b29fdb5dffa054f151bca9ed6a113c38", r[0].RunId);
                     Assert.AreEqual(1, r[0].Flags.Length);
                     Assert.AreEqual("master", r[0].Flags[0]);
-                    Assert.AreEqual(0, r[0].PendingCommands);
+                    Assert.AreEqual(0, r[0].LinkPendingCommands);
                     Assert.AreEqual(0, r[0].LastPingSent);
                     Assert.AreEqual(50, r[0].LastPingReply);
                     Assert.AreEqual(50, r[0].LastOkPingReply);
@@ -90,7 +90,7 @@ namespace CSRedis.Tests
                     "port", "6379",
                     "runid", "0e4c05a7b29fdb5dffa054f151bca9ed6a113c38",
                     "flags", "master",
-                    "pending-commands", "0",
+                    "link-pending-commands", "0",
                     "last-ping-sent", "0",
                     "last-ping-reply", "50",
                     "last-ok-ping-reply", "50",
@@ -114,7 +114,7 @@ namespace CSRedis.Tests
                     Assert.AreEqual("0e4c05a7b29fdb5dffa054f151bca9ed6a113c38", r.RunId);
                     Assert.AreEqual(1, r.Flags.Length);
                     Assert.AreEqual("master", r.Flags[0]);
-                    Assert.AreEqual(0, r.PendingCommands);
+                    Assert.AreEqual(0, r.LinkPendingCommands);
                     Assert.AreEqual(0, r.LastPingSent);
                     Assert.AreEqual(50, r.LastPingReply);
                     Assert.AreEqual(50, r.LastOkPingReply);
@@ -142,7 +142,7 @@ namespace CSRedis.Tests
                     "port", "7379",
                     "runid", "0e4c05a7b29fdb5dffa054f151bca9ed6a113c38",
                     "flags", "slave",
-                    "pending-commands", "0",
+                    "link-pending-commands", "0",
                     "last-ping-sent", "0",
                     "last-ok-ping-reply", "50",
                     "last-ping-reply", "50",
@@ -167,7 +167,7 @@ namespace CSRedis.Tests
                     Assert.AreEqual("0e4c05a7b29fdb5dffa054f151bca9ed6a113c38", r[0].RunId);
                     Assert.AreEqual(1, r[0].Flags.Length);
                     Assert.AreEqual("slave", r[0].Flags[0]);
-                    Assert.AreEqual(0, r[0].PendingCommands);
+                    Assert.AreEqual(0, r[0].LinkPendingCommands);
                     Assert.AreEqual(50, r[0].LastPingReply);
                     Assert.AreEqual(50, r[0].LastOkPingReply);
                     Assert.AreEqual(1000, r[0].DownAfterMilliseconds);
